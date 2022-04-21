@@ -1,4 +1,4 @@
-package ltw.nhom6.blog.user.controller;
+package ltw.nhom6.blog.user.controller.common;
 
 import ltw.nhom6.blog.user.dto.request.UserActiveRequestDto;
 import ltw.nhom6.blog.user.dto.request.UserGetOtpRequestDto;
