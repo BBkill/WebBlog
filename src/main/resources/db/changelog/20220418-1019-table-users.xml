@@ -1,0 +1,94 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20221804-1052" author="DucDo">
+        <createTable tableName="role">
+            <column name="id" type="tinyint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="role_id_primary_key"/>
+            </column>
+            <column name="name" type="varchar(10)"/>
+        </createTable>
+
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="user_id_primary_key"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="age" type="tinyint"/>
+            <column name="gender" type="varchar(10)"/>
+            <column name="username" type="varchar(50)"/>
+            <column name="email" type="varchar(128)"/>
+            <column name="password" type="varchar(256)"/>
+            <column name="is_activated" type="boolean"/>
+        </createTable>
+        <createTable tableName="role_users">
+            <column name="role_id" type="tinyint">
+                <constraints primaryKey="true" primaryKeyName="role_id_composite_primary_key"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="users_id_composite_primary_key"/>
+            </column>
+        </createTable>
+        <createTable tableName="blog">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="blog_id_primary_key"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="user_blog_id_fk" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+            <column name="title" type="varchar(128)"/>
+            <column name="content" type="text"/>
+            <column name="is_deleted" type="bit"/>
+            <column name="last_updated_at" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="category_id_primary_key"/>
+            </column>
+            <column name="category" type="varchar(20)"/>
+        </createTable>
+
+        <createTable tableName="category_blog">
+            <column name="category_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="category_id_fk" referencedTableName="category" referencedColumnNames="id"/>
+            </column>
+            <column name="blog_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="blog_composite_id_fk" referencedTableName="blog" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="comment">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="comment_primary_key"/>
+            </column>
+            <column name="blog_id" type="bigint">
+                <constraints foreignKeyName="blog_comment_id_fk" referencedTableName="blog" referencedColumnNames="id"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="users_comment_id_fk" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+            <column name="is_deleted" type="bit"/>
+            <column name="content" type="text"/>
+            <column name="last_updated_at" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="rate">
+            <column name="blog_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="blog_id" referencedTableName="blog" referencedColumnNames="id"/>
+            </column>
+            <column name="users_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="user_id" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>
