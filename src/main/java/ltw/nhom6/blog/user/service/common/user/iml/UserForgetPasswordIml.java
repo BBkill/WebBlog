@@ -59,7 +59,10 @@ public class UserForgetPasswordIml implements UserResetPasswordService {
 
         HashMap<String, String> error = new HashMap<>();
         userRepository.findUserByEmail(requestDto.getEmail()).ifPresentOrElse(user -> {
-        }, () -> error.put("user", "not found"));
+            if (user.isDeleted()) {
+                error.put("DELETED", "user is deleted");
+            }
+        }, () -> error.put("NOT FOUND", "user not found"));
 
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.NOT_FOUND);
@@ -90,16 +93,16 @@ public class UserForgetPasswordIml implements UserResetPasswordService {
         String otpCode = requestDto.getOtp();
         userRepository.findUserByEmail(email).ifPresentOrElse(user -> {
             if (!requestDto.getNewPassword().equals(requestDto.getConfirmPassword())) {
-                error.put("password","password not match");
+                error.put("WRONG PASSWORD","password not match");
             }
-        }, () -> error.put("user","is not registered"));
+        }, () -> error.put("NOT REGISTERED","user is not registered"));
 
         try {
             if (!otpCache.get(email).equals(otpCode)) {
-                error.put("otp", "otp is not match");
+                error.put("WRONG OTP", "otp is not match");
             }
         } catch (Exception e) {
-            error.put("otp", "otp is expired");
+            error.put("EXPIRED OTP", "otp is expired");
         }
 
         if (!error.isEmpty()) {

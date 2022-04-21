@@ -79,14 +79,14 @@ public class UserRegisterServiceIml implements UserRegisterService {
 
         //check duplicate username
         userRepository.findUserByUsername(registerRequestDto.getUsername()).ifPresent(
-                user -> error.put("username", " already existed"));
+                user -> error.put("USERNAME EXISTED", "username is already existed"));
 
         //check duplicate email
         userRepository.findUserByEmail(registerRequestDto.getEmail()).ifPresent(
-                user -> error.put("email", "already existed"));
+                user -> error.put("EMAIL EXISTED", "email is already existed"));
 
         if (!registerRequestDto.getPassword().equals(registerRequestDto.getPasswordConfirm())) {
-            error.put("password ", "not match");
+            error.put("WRONG PASSWORD", "password not match");
         }
 
         if (!error.isEmpty()) {

@@ -34,6 +34,8 @@ public class User {
     private String password;
     @Column(name = "is_activated")
     private boolean isActivated;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "role_users",
@@ -43,6 +45,18 @@ public class User {
 
     @OneToMany()
     private List<Blog> blogList;
+
+    public User(Long id, String firstName, String lastName, Byte age, String gender, String username, String email, String password, boolean isActivated, boolean isDeleted) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.isActivated = isActivated;
+    }
 
     @Override
     public String toString() {

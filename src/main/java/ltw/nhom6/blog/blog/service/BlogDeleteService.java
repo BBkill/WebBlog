@@ -1,4 +1,4 @@
 package ltw.nhom6.blog.blog.service;
 
-public interface PostUpdateService {
+public interface BlogDeleteService {
 }

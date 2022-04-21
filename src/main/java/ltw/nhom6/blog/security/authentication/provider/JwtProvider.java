@@ -27,7 +27,7 @@ public class JwtProvider {
 
     private final static String JWT_SECRET_KEY = "aibles";
 
-    private final static long JWT_LIFE_TIME_MILLISECONDS = 604800000;
+    private final static long JWT_LIFE_TIME_MILLISECONDS = 600000;
 
     private final static String JWT_PREFIX= "Bearer";
 

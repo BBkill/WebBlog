@@ -48,12 +48,12 @@ public class UserLoginServiceIml implements UserLoginService {
         HashMap<String, String> error = new HashMap<>();
         userRepository.findUserByEmail(requestDto.getEmail()).ifPresentOrElse(user -> {
             if (!user.isActivated()) {
-                error.put("user", "user is not activated");
+                error.put("ACTIVATED", "user is not activated");
             }
             if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-                error.put("password", "invalid password");
+                error.put("WRONG PASSWORD", "invalid password");
             }
-        }, () -> error.put("email", "email not found"));
+        }, () -> error.put("NOT FOUND", "email not found"));
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.BAD_REQUEST);
         }

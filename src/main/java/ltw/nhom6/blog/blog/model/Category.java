@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "category")
 public class Category {
 
     @Id

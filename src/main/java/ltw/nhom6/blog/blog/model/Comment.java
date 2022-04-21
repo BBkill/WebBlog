@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Table(name = "comment")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "comment")
 public class Comment {
 
     @Id

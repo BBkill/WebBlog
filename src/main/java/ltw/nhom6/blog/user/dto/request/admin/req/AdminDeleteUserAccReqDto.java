@@ -11,9 +11,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class AdminDeleteUserAccReqDto {
 
-    @NotBlank(message = "access token is required")
-    private String accessToken;
-
     @NotBlank(message = "username is required")
     private String username;
 }

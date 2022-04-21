@@ -43,6 +43,9 @@ public class UserChangePasswordServiceIml implements UserChangePasswordService {
         String confirmPassword = requestDto.getConfirmPassword();
         String email = requestDto.getEmail();
         userRepository.findUserByEmail(email).ifPresentOrElse(user -> {
+            if (user.isDeleted()) {
+                error.put("user", "is deleted");
+            }
             if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
                 error.put("password", " not match");
             }

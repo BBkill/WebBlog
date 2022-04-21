@@ -17,6 +17,7 @@ import java.util.Set;
 public class Blog {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "title")
     private String title;
@@ -29,8 +30,8 @@ public class Blog {
 
     @JoinTable(name = "category_blog",
             joinColumns = {@JoinColumn(name = "blog_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-    @ManyToMany
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Category> categories;
 
     @OneToOne

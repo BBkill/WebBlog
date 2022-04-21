@@ -42,6 +42,10 @@ public class UserActiveServiceIml implements UserActiveService {
             if (user.isActivated()) {
                 error.put("user", " is activated");
             }
+
+            if (user.isDeleted()) {
+                error.put("user", "is deleted");
+            }
         }, () -> {
             error.put("user", " not found");
         });

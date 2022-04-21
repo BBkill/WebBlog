@@ -37,9 +37,10 @@ public class AdminServiceIml implements AdminService {
     public AdminDeleteUserAccResDto deleteUserAcc(AdminDeleteUserAccReqDto reqDto) {
         validDeleteInputReq(reqDto);
         User user = userRepository.findUserByUsername(reqDto.getUsername()).get();
+        user.setDeleted(true);
         AdminDeleteUserAccResDto resDto = modelMapper.map(user, AdminDeleteUserAccResDto.class);
         resDto.setRoles(user.getRoles());
-        userRepository.delete(user);
+        userRepository.save(user);
         return resDto;
     }
 
@@ -59,14 +60,14 @@ public class AdminServiceIml implements AdminService {
         userRepository.findUserByUsername(reqDto.getUsername()).ifPresentOrElse(user -> {
                     user.getRoles().forEach(role -> {
                         if (role.getName().equals("ADMIN")) {
-                            error.put("user role", "user has role admin");
+                            error.put("NO AUTHORITY", "user has role admin");
                         }
                     });
                     if (!error.isEmpty()) {
                         throw new BusinessException(error, HttpStatus.BAD_REQUEST);
                     }
                 },
-                () -> error.put("user", "user not found"));
+                () -> error.put("USER NOT FOUND", "user not found"));
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.BAD_REQUEST);
         }
@@ -78,10 +79,10 @@ public class AdminServiceIml implements AdminService {
         userRepository.findUserByUsername(reqDto.getUsername()).ifPresentOrElse(user -> {
             user.getRoles().forEach(role -> {
                 if (role.getName().equals("ADMIN")) {
-                    error.put("user role", "user has role admin already");
+                    error.put("AUTHORITY", "user has role admin already");
                 }
             });
-        }, () -> error.put("user", "user not found"));
+        }, () -> error.put("NOT FOUND", "user not found"));
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.BAD_REQUEST);
         }

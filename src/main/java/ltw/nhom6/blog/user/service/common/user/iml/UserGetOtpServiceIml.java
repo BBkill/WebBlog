@@ -33,10 +33,13 @@ public class UserGetOtpServiceIml implements UserGetOtpService {
     public void execute(UserGetOtpRequestDto requestDto) {
         HashMap<String, String> error = new HashMap<>();
         userRepository.getUserByEmail(requestDto.getEmail()).ifPresentOrElse(user -> {
-            if (user.isActivated()) {
-                error.put("user", "is activated");
+            if (user.isDeleted()) {
+                error.put("DELETED", "user is deleted");
             }
-        }, ()-> error.put("user", "is not registered"));
+            if (user.isActivated()) {
+                error.put("ACTIVATED", "user is activated");
+            }
+        }, ()-> error.put("NOT FOUND", "user is not registered"));
 
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.BAD_REQUEST);
