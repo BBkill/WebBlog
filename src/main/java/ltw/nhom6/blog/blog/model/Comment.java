@@ -1,10 +1,9 @@
 package ltw.nhom6.blog.blog.model;
 
 import lombok.*;
-import ltw.nhom6.blog.user.model.User;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,7 +12,10 @@ import java.sql.Timestamp;
 public class Comment {
 
     private String id;
+    private String blogTitle;
+    private String blogAuthor;
+    private String commentAuthor;
+    private String comment;
     private Boolean isDeleted;
-    private String content;
-    private Timestamp lastUpDatedAt;
+    private Date lastUpDatedAt;
 }
