@@ -10,13 +10,12 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogCreateReqDto {
+public class BlogEditReqDto {
 
     @NotBlank(message = "title is required")
-    private String title;
-    @NotBlank(message = "Content is required")
-    private String content;
+    private String oldTitle;
+    private String newContent;
+    private Category[] newCategory;
     @NotBlank(message = "Access token is required")
     private String accessToken;
-    private Category[] categories;
 }

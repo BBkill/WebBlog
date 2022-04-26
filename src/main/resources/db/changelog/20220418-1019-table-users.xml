@@ -37,58 +37,6 @@
                 <constraints primaryKey="true" primaryKeyName="users_id_composite_primary_key"/>
             </column>
         </createTable>
-        <createTable tableName="blog">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="blog_id_primary_key"/>
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints foreignKeyName="user_blog_id_fk" referencedTableName="users" referencedColumnNames="id"/>
-            </column>
-            <column name="title" type="varchar(128)"/>
-            <column name="content" type="text"/>
-            <column name="is_deleted" type="bit"/>
-            <column name="last_updated_at" type="timestamp"/>
-        </createTable>
-
-        <createTable tableName="category">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="category_id_primary_key"/>
-            </column>
-            <column name="category" type="varchar(20)"/>
-        </createTable>
-
-        <createTable tableName="category_blog">
-            <column name="category_id" type="int">
-                <constraints primaryKey="true" foreignKeyName="category_id_fk" referencedTableName="category" referencedColumnNames="id"/>
-            </column>
-            <column name="blog_id" type="bigint">
-                <constraints primaryKey="true" foreignKeyName="blog_composite_id_fk" referencedTableName="blog" referencedColumnNames="id"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="comment">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="comment_primary_key"/>
-            </column>
-            <column name="blog_id" type="bigint">
-                <constraints foreignKeyName="blog_comment_id_fk" referencedTableName="blog" referencedColumnNames="id"/>
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints foreignKeyName="users_comment_id_fk" referencedTableName="users" referencedColumnNames="id"/>
-            </column>
-            <column name="is_deleted" type="bit"/>
-            <column name="content" type="text"/>
-            <column name="last_updated_at" type="timestamp"/>
-        </createTable>
-
-        <createTable tableName="rate">
-            <column name="blog_id" type="bigint">
-                <constraints primaryKey="true" foreignKeyName="blog_id" referencedTableName="blog" referencedColumnNames="id"/>
-            </column>
-            <column name="users_id" type="bigint">
-                <constraints primaryKey="true" foreignKeyName="user_id" referencedTableName="users" referencedColumnNames="id"/>
-            </column>
-        </createTable>
 
     </changeSet>
 

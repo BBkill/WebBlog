@@ -56,11 +56,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/user/forget-password/**").permitAll()
                 .antMatchers("/api/v1/user/login").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/blog/create-blog").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/blogs").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/blog/edit-blog").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 }

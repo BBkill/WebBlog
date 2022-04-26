@@ -9,16 +9,12 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "rate")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "rate")
 public class Rate {
 
-    @Id
     private Long id;
-    @Column(name = "blog_id")
     private Long blogId;
-    @Column(name = "users_id")
     private Long userId;
+    private Integer rate;
 }

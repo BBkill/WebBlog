@@ -9,14 +9,8 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "category")
 public class Category {
-
-    @Id
-    private Integer id;
-    @Column(name = "category")
-    private String category;
+        private String name;
 }

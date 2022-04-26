@@ -43,9 +43,6 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-    @OneToMany()
-    private List<Blog> blogList;
-
     public User(Long id, String firstName, String lastName, Byte age, String gender, String username, String email, String password, boolean isActivated, boolean isDeleted) {
         this.id = id;
         this.firstName = firstName;
@@ -71,7 +68,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", isActivated=" + isActivated +
                 ", roles=" + roles +
-                ", blogList=" + blogList +
                 '}';
     }
 }

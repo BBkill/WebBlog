@@ -1,46 +1,30 @@
 package ltw.nhom6.blog.blog.model;
 
 import lombok.*;
-import ltw.nhom6.blog.user.model.User;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-@Table(name = "blog")
+@Document(collection = "blog")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Blog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "title")
+    private String id;
     private String title;
-    @Column(name = "content")
     private String content;
-    @Column(name = "is_deleted")
+    private String author;
     private Boolean isDeleted;
-    @Column(name = "last_updated_at")
-    private Timestamp lastUpdatedAt;
-
-    @JoinTable(name = "category_blog",
-            joinColumns = {@JoinColumn(name = "blog_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    private Date lastUpdatedAt;
     private Set<Category> categories;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private List<Comment> commentList;
-
-    @OneToMany
-    private List<Rate> rateList;
+    private List<Comment> comments;
+    private Set<Rate> rates;
 }
