@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserActiveRequestDto;
 import ltw.nhom6.blog.user.service.common.user.UserActiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class UserActiveController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
-    public void execute(@RequestBody @Valid UserActiveRequestDto activeRequestDto) {
+    public Result<Void> execute(@RequestBody @Valid UserActiveRequestDto activeRequestDto) {
         activeService.execute(activeRequestDto);
+        return Result.success();
     }
 }

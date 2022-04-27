@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserGetOtpResetPasswordRequestDto;
 import ltw.nhom6.blog.user.dto.request.UserResetPasswordRequestDto;
 import ltw.nhom6.blog.user.service.common.user.UserResetPasswordService;
@@ -21,14 +22,16 @@ public class UserResetPasswordController {
     }
 
     @PostMapping("/get-otp")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void getOtpResetPassword(@RequestBody @Valid UserGetOtpResetPasswordRequestDto requestDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Result<Void> getOtpResetPassword(@RequestBody @Valid UserGetOtpResetPasswordRequestDto requestDto) {
         service.forgetPassword(requestDto);
+        return Result.success();
     }
 
     @PostMapping("/reset-password")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void resetPassword(@RequestBody @Valid UserResetPasswordRequestDto requestDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Result<Void> resetPassword(@RequestBody @Valid UserResetPasswordRequestDto requestDto) {
         service.resetPassword(requestDto);
+        return Result.success();
     }
 }

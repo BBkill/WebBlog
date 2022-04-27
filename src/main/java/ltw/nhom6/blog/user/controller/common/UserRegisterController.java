@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserRegisterRequestDto;
 import ltw.nhom6.blog.user.dto.response.UserRegisterResponseDto;
 import ltw.nhom6.blog.user.service.common.user.UserRegisterService;
@@ -22,7 +23,8 @@ public class UserRegisterController {
     }
 
     @PostMapping
-    public UserRegisterResponseDto execute(@Valid @RequestBody UserRegisterRequestDto requestDto) {
-        return service.execute(requestDto);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Result<UserRegisterResponseDto> execute(@Valid @RequestBody UserRegisterRequestDto requestDto) {
+        return Result.creatUserSuccess(service.execute(requestDto));
     }
 }

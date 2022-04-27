@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserLoginRequestDto;
 import ltw.nhom6.blog.user.dto.response.UserLoginResponseDto;
 import ltw.nhom6.blog.user.service.common.user.UserLoginService;
@@ -21,8 +22,8 @@ public class UserLoginController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserLoginResponseDto execute(@Valid @RequestBody UserLoginRequestDto loginRequestDto) {
-        return service.execute(loginRequestDto);
+    @ResponseStatus(HttpStatus.OK)
+    public Result<UserLoginResponseDto> execute(@Valid @RequestBody UserLoginRequestDto loginRequestDto) {
+        return Result.loginSuccess(service.execute(loginRequestDto));
     }
 }

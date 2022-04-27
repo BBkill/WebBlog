@@ -3,6 +3,7 @@ package ltw.nhom6.blog.blog.controller;
 import ltw.nhom6.blog.blog.dto.request.BlogEditReqDto;
 import ltw.nhom6.blog.blog.dto.response.BlogEditResponse;
 import ltw.nhom6.blog.blog.service.BlogEditService;
+import ltw.nhom6.blog.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class BlogEditController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public BlogEditResponse execute(@Valid @RequestBody BlogEditReqDto reqDto) {
-        return service.execute(reqDto);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Result<BlogEditResponse> execute(@Valid @RequestBody BlogEditReqDto reqDto) {
+        return Result.success(service.execute(reqDto));
     }
 }

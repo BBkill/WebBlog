@@ -3,6 +3,7 @@ package ltw.nhom6.blog.blog.controller;
 import ltw.nhom6.blog.blog.dto.request.BlogFindingReqDto;
 import ltw.nhom6.blog.blog.dto.response.BlogResponse;
 import ltw.nhom6.blog.blog.service.BlogFindingService;
+import ltw.nhom6.blog.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,7 @@ public class BlogController {
     }
 
     @GetMapping
-
-    public ResponseEntity<BlogResponse> getAllBlog(@RequestBody BlogFindingReqDto reqDto) {
-        return ResponseEntity.ok(service.findAllBlog(reqDto));
+    public Result<BlogResponse> getAllBlog(@RequestBody BlogFindingReqDto reqDto) {
+        return Result.success(service.findAllBlog(reqDto));
     }
 }

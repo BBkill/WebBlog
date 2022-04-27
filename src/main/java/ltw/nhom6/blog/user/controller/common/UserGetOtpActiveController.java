@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserActiveRequestDto;
 import ltw.nhom6.blog.user.dto.request.UserGetOtpRequestDto;
 import ltw.nhom6.blog.user.service.common.user.UserGetOtpService;
@@ -21,8 +22,9 @@ public class UserGetOtpActiveController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void execute(@Valid @RequestBody UserGetOtpRequestDto requestDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Result<Void> execute(@Valid @RequestBody UserGetOtpRequestDto requestDto) {
         service.execute(requestDto);
+        return Result.success();
     }
 }

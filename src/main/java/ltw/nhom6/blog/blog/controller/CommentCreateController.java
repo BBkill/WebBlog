@@ -3,6 +3,7 @@ package ltw.nhom6.blog.blog.controller;
 import ltw.nhom6.blog.blog.dto.request.CommentBlogReqDto;
 import ltw.nhom6.blog.blog.dto.response.CommentBlogResDto;
 import ltw.nhom6.blog.blog.service.CommentService;
+import ltw.nhom6.blog.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class CommentCreateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentBlogResDto addComment(@RequestBody @Valid CommentBlogReqDto reqDto) {
-        return service.comment(reqDto);
+    public Result<CommentBlogResDto> addComment(@RequestBody @Valid CommentBlogReqDto reqDto) {
+        return Result.success(service.comment(reqDto));
     }
 }

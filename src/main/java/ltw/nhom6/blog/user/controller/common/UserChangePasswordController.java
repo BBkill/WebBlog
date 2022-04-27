@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.user.controller.common;
 
+import ltw.nhom6.blog.core.Result;
 import ltw.nhom6.blog.user.dto.request.UserChangePasswordRequestDto;
 import ltw.nhom6.blog.user.service.common.user.UserChangePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,9 @@ public class UserChangePasswordController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void execute(@RequestBody @Valid UserChangePasswordRequestDto requestDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Result<Void> execute(@RequestBody @Valid UserChangePasswordRequestDto requestDto) {
         service.execute(requestDto);
+        return Result.success();
     }
 }
