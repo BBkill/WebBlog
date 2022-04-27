@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/blogs").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/api/v1/blog/edit-blog").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/api/v1/blog/add-comment").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/api/v1/blog/add-rate").hasAnyAuthority("USER_ROLE")
+                .antMatchers("/api/v1/blog/add-rate").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)

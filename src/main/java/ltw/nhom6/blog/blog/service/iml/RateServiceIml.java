@@ -13,6 +13,7 @@ import ltw.nhom6.blog.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -52,7 +53,11 @@ public class RateServiceIml implements RateService {
         rate.setUserId(user.getId());
         rate.setUsername(user.getUsername());
 
+
         Set<Rate> rateSet = blog.getRates();
+        if (rateSet == null) {
+            rateSet = new HashSet<>();
+        }
         rateSet.add(rate);
         blog.setRates(rateSet);
         blogRepository.save(blog);

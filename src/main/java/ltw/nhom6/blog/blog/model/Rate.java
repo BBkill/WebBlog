@@ -15,7 +15,8 @@ import javax.persistence.Table;
 @Document(collection = "rate")
 public class Rate {
 
-    private Long id;
+    @Id
+    private String id;
     private String blogId;
     private String blogName;
     private Long userId;

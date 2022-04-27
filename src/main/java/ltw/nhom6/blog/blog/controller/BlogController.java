@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/blogs")
 public class BlogController {
@@ -21,7 +23,7 @@ public class BlogController {
     }
 
     @GetMapping
-    public Result<BlogResponse> getAllBlog(@RequestBody BlogFindingReqDto reqDto) {
+    public Result<BlogResponse> getAllBlog(@RequestBody @Valid BlogFindingReqDto reqDto) {
         return Result.success(service.findAllBlog(reqDto));
     }
 }
