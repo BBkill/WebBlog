@@ -14,6 +14,7 @@ public class Comment {
     private String id;
     private String blogTitle;
     private String blogAuthor;
+    private Long userId;
     private String commentAuthor;
     private String comment;
     private Boolean isDeleted;

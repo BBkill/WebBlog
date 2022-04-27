@@ -1,6 +1,7 @@
 package ltw.nhom6.blog.blog.model;
 
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +12,12 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "rate")
 public class Rate {
 
     private Long id;
-    private Long blogId;
+    private String blogId;
     private Long userId;
+    private String username;
     private Integer rate;
 }

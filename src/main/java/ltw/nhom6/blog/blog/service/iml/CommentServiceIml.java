@@ -5,9 +5,11 @@ import ltw.nhom6.blog.blog.dto.response.CommentBlogResDto;
 import ltw.nhom6.blog.blog.model.Blog;
 import ltw.nhom6.blog.blog.model.Comment;
 import ltw.nhom6.blog.blog.repository.BlogRepository;
+import ltw.nhom6.blog.blog.repository.CommentRepository;
 import ltw.nhom6.blog.blog.service.CommentService;
 import ltw.nhom6.blog.exception.common.BusinessException;
 import ltw.nhom6.blog.security.authentication.provider.JwtProvider;
+import ltw.nhom6.blog.user.model.User;
 import ltw.nhom6.blog.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +25,26 @@ public class CommentServiceIml implements CommentService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final ModelMapper modelMapper;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public CommentServiceIml(BlogRepository blogRepository,
                              UserRepository userRepository,
                              JwtProvider jwtProvider,
-                             ModelMapper modelMapper) {
+                             ModelMapper modelMapper,
+                             CommentRepository commentRepository) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
         this.modelMapper = modelMapper;
+        this.commentRepository = commentRepository;
     }
 
     @Override
     public CommentBlogResDto comment(CommentBlogReqDto reqDto) {
         validateInput(reqDto);
         String author = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        User userComment = userRepository.findUserByEmail(author).orElse(new User());
         Blog blog = blogRepository.findBlogByAuthorAndTitle(author, reqDto.getBlogTitle()).orElse(new Blog());
         ltw.nhom6.blog.blog.model.Comment comment = new Comment();
         comment.setComment(reqDto.getComment());
@@ -47,8 +53,12 @@ public class CommentServiceIml implements CommentService {
         comment.setIsDeleted(false);
         comment.setLastUpDatedAt(new Date());
         comment.setCommentAuthor(author);
-        blog.setComments(List.of(comment));
-        return modelMapper.map(blogRepository.save(blog), CommentBlogResDto.class);
+        comment.setUserId(userComment.getId());
+        List<Comment> list = blog.getComments();
+        list.addAll(List.of(comment));
+        blog.setComments(list);
+        blogRepository.save(blog);
+        return modelMapper.map(commentRepository.save(comment), CommentBlogResDto.class);
     }
 
     private void validateInput(CommentBlogReqDto reqDto) {

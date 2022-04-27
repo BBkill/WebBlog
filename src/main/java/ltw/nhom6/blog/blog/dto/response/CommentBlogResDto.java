@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CommentBlogResDto {
 
     private String blogTitle;
-    private String cmtAuthor;
+    private String commentAuthor;
     private String blogAuthor;
     private String comment;
 }
