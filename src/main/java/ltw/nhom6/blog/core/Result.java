@@ -15,8 +15,6 @@ public class Result<T> implements Serializable {
 
     private Integer code = ResultEnum.SUCCESS.getCode();
 
-    private Object other;
-
     private String msg = null;
 
     private T data = null;
@@ -30,13 +28,6 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
-    public Result(int code, Object other, String msg, T data) {
-        this.code = code;
-        this.other = other;
-        this.msg = msg;
-        this.data = data;
-    }
-
     public Result(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
@@ -45,14 +36,6 @@ public class Result<T> implements Serializable {
     public Result(ResultEnum resultEnum) {
         this.code = resultEnum.getCode();
         this.msg = resultEnum.getDesc();
-    }
-
-
-    public Result(int code, String msg, T data, Object other) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-        this.other = other;
     }
 
     public static <T> Result<T> success(T data) {
@@ -83,5 +66,4 @@ public class Result<T> implements Serializable {
     public String toString() {
         return "Result [code=" + code + ", msg=" + msg + ", data=" + data + "]";
     }
-
 }
