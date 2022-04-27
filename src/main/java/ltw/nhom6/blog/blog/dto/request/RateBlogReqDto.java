@@ -1,22 +1,24 @@
 package ltw.nhom6.blog.blog.dto.request;
 
+import liquibase.datatype.DataTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ltw.nhom6.blog.blog.model.Category;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogEditReqDto {
+public class RateBlogReqDto {
 
+    @NotBlank(message = "Blog name is required")
     private String blogId;
-    @NotBlank(message = "title is required")
-    private String oldTitle;
-    private String newContent;
-    private Category[] newCategory;
-    @NotBlank(message = "Access token is required")
+
+    @Min(message = "max is 10", value = 10)
+    @Min(message = "min is 0", value = 0)
+    private Integer rate;
     private String accessToken;
 }

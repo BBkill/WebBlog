@@ -15,11 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BlogEditResponse {
+
+    private String id;
     private String title;
     private String content;
     private String author;
     private Date lastUpdatedAt;
     private Set<Category> categories;
-//    private List<Comment> comments;
-//    private Set<Rate> rates;
+    private List<Comment> comments;
+    private Set<Rate> rates;
 }

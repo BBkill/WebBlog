@@ -12,6 +12,7 @@ import java.util.Date;
 public class Comment {
 
     private String id;
+    private String blogId;
     private String blogTitle;
     private String blogAuthor;
     private Long userId;

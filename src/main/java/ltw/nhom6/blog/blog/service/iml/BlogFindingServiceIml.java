@@ -34,7 +34,7 @@ public class BlogFindingServiceIml implements BlogFindingService {
     public BlogResponse findAllBlog(BlogFindingReqDto reqDto) {
         validateInput(reqDto);
         String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
-        List<Blog> blogs = blogRepository.findAllByAuthor(email);
+        List<Blog> blogs = blogRepository.findAllByAuthorAndIsDeleted(email, false);
         return new BlogResponse(blogs);
     }
 

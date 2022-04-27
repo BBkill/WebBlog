@@ -24,6 +24,6 @@ public class CommentCreateController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Result<CommentBlogResDto> addComment(@RequestBody @Valid CommentBlogReqDto reqDto) {
-        return Result.success(service.comment(reqDto));
+        return Result.createCommentSuccess(service.comment(reqDto));
     }
 }

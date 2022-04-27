@@ -40,22 +40,22 @@ public class UserActiveServiceIml implements UserActiveService {
 
         userRepository.findUserByEmail(email).ifPresentOrElse(user -> {
             if (user.isActivated()) {
-                error.put("user", " is activated");
+                error.put("ACTIVATED", "user is activated");
             }
 
             if (user.isDeleted()) {
-                error.put("user", "is deleted");
+                error.put("DELETED", "user is banned");
             }
         }, () -> {
-            error.put("user", " not found");
+            error.put("NOT FOUND", "user not found");
         });
 
         try {
             if (!otpCache.get(email).equals(otp)) {
-                error.put("otp ", "not match");
+                error.put("NOT MATCH", "otp not match");
             }
         } catch (ExecutionException e) {
-            error.put("otp"," is expired");
+            error.put("EXPIRED","otp is expired");
         }
         if (!error.isEmpty()) {
             throw new BusinessException(error, HttpStatus.BAD_REQUEST);

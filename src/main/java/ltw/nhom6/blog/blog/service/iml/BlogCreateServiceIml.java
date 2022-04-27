@@ -52,8 +52,7 @@ public class BlogCreateServiceIml implements BlogCreateService {
         blog.setComments(null);
         blog.setRates(null);
         blog.setAuthor(jwtProvider.getUsernameFromToken(reqDto.getAccessToken()));
-        blogRepository.save(blog);
-
+        response.setId(blogRepository.save(blog).getId());
         response.setContent(reqDto.getContent());
         response.setCategories(blog.getCategories());
         response.setAuthor(blog.getAuthor());

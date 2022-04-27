@@ -1,5 +1,6 @@
 package ltw.nhom6.blog.blog.dto.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentBlogResDto {
+public class RateBlogResDto {
 
     private String blogId;
-    private String blogTitle;
-    private String commentAuthor;
-    private String blogAuthor;
-    private String comment;
+    private String blogName;
+    private String username;
+    private float rate;
 }

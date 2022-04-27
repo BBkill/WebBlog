@@ -17,6 +17,7 @@ public class Rate {
 
     private Long id;
     private String blogId;
+    private String blogName;
     private Long userId;
     private String username;
     private Integer rate;

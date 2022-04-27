@@ -16,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BlogCreateResDto {
+    private String id;
     private String title;
     private String content;
     private String author;

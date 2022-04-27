@@ -42,23 +42,29 @@ public class CommentServiceIml implements CommentService {
 
     @Override
     public CommentBlogResDto comment(CommentBlogReqDto reqDto) {
+
         validateInput(reqDto);
         String author = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
         User userComment = userRepository.findUserByEmail(author).orElse(new User());
-        Blog blog = blogRepository.findBlogByAuthorAndTitle(author, reqDto.getBlogTitle()).orElse(new Blog());
+        Blog blog = blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).orElse(new Blog());
         ltw.nhom6.blog.blog.model.Comment comment = new Comment();
         comment.setComment(reqDto.getComment());
         comment.setBlogAuthor(blog.getAuthor());
-        comment.setBlogTitle(reqDto.getBlogTitle());
+        comment.setBlogTitle(blog.getTitle());
         comment.setIsDeleted(false);
         comment.setLastUpDatedAt(new Date());
         comment.setCommentAuthor(author);
         comment.setUserId(userComment.getId());
+        comment.setBlogId(blog.getId());
         List<Comment> list = blog.getComments();
-        list.addAll(List.of(comment));
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        Comment newComment = commentRepository.save(comment);
+        list.add(newComment);
         blog.setComments(list);
         blogRepository.save(blog);
-        return modelMapper.map(commentRepository.save(comment), CommentBlogResDto.class);
+        return modelMapper.map(newComment, CommentBlogResDto.class);
     }
 
     private void validateInput(CommentBlogReqDto reqDto) {
@@ -69,7 +75,7 @@ public class CommentServiceIml implements CommentService {
                 error.put("USER", "user is banned");
             }
         });
-        blogRepository.findBlogByAuthorAndTitle(author, reqDto.getBlogTitle()).ifPresentOrElse(blog -> {
+        blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).ifPresentOrElse(blog -> {
             if (blog.getIsDeleted()) {
                 error.put("BLOG", "IS DELETED");
             }

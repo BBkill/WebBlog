@@ -59,6 +59,10 @@ public class Result<T> implements Serializable {
         return new Result<>(ResultEnum.SUCCESS.getCode(), SUCCESSFUL_MESSAGE, data);
     }
 
+    public static <T> Result<T> createCommentSuccess(T data) {
+        return new Result<>(ResultEnum.SUCCESS.getCode(), SUCCESSFUL_MESSAGE, data);
+    }
+
     public static <T> Result<T> createSuccess(T data) {
         return new Result<>(ResultEnum.BLOG_CREATED.getCode(), SUCCESSFUL_MESSAGE, data);
     }

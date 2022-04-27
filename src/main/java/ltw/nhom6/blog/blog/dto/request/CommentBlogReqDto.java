@@ -12,8 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CommentBlogReqDto {
 
-    private String blogTitle;
-    private String blogAuthor;
+    private String blogId;
     @NotBlank(message = "comment is required")
     private String comment;
     private String accessToken;

@@ -12,5 +12,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
+
         private String name;
 }

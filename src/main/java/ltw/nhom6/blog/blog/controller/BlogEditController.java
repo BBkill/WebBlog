@@ -21,7 +21,7 @@ public class BlogEditController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Result<BlogEditResponse> execute(@Valid @RequestBody BlogEditReqDto reqDto) {
         return Result.success(service.execute(reqDto));
     }

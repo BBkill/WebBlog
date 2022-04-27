@@ -50,6 +50,9 @@ public class UserLoginServiceIml implements UserLoginService {
             if (!user.isActivated()) {
                 error.put("ACTIVATED", "user is not activated");
             }
+            if (user.isDeleted()) {
+                error.put("BANNED", "user is banned");
+            }
             if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
                 error.put("WRONG PASSWORD", "invalid password");
             }
