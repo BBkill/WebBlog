@@ -3,7 +3,6 @@ package ltw.nhom6.blog.blog.service.iml;
 import ltw.nhom6.blog.blog.dto.request.BlogCreateReqDto;
 import ltw.nhom6.blog.blog.dto.response.BlogCreateResDto;
 import ltw.nhom6.blog.blog.model.Blog;
-import ltw.nhom6.blog.blog.model.Category;
 import ltw.nhom6.blog.blog.repository.BlogRepository;
 import ltw.nhom6.blog.blog.service.BlogCreateService;
 import ltw.nhom6.blog.exception.common.BusinessException;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,8 +39,8 @@ public class BlogCreateServiceIml implements BlogCreateService {
     }
 
     @Override
-    public BlogCreateResDto execute(BlogCreateReqDto reqDto) {
-        validateInput(reqDto);
+    public BlogCreateResDto execute(BlogCreateReqDto reqDto, String token) {
+        validateInput(token);
         Blog blog = modelMapper.map(reqDto, Blog.class);
         BlogCreateResDto response = new BlogCreateResDto();
         blog.setIsDeleted(false);
@@ -51,7 +48,7 @@ public class BlogCreateServiceIml implements BlogCreateService {
         blog.setCategories(Arrays.stream(reqDto.getCategories()).collect(Collectors.toSet()));
         blog.setComments(null);
         blog.setRates(null);
-        blog.setAuthor(jwtProvider.getUsernameFromToken(reqDto.getAccessToken()));
+        blog.setAuthor(jwtProvider.getUsernameFromToken(token));
         response.setId(blogRepository.save(blog).getId());
         response.setContent(reqDto.getContent());
         response.setCategories(blog.getCategories());
@@ -61,9 +58,9 @@ public class BlogCreateServiceIml implements BlogCreateService {
         return response;
     }
 
-    private void validateInput(BlogCreateReqDto reqDto) {
+    private void validateInput(String token) {
         HashMap<String, String> error = new HashMap<>();
-        String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        String email = jwtProvider.getUsernameFromToken(token);
         userRepository.findUserByEmail(email).ifPresentOrElse(user -> {},
                 () -> error.put("NOT FOUND", "User not found"));
         if (!error.isEmpty()) {

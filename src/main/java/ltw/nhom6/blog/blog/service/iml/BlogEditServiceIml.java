@@ -7,8 +7,6 @@ import ltw.nhom6.blog.blog.repository.BlogRepository;
 import ltw.nhom6.blog.blog.service.BlogEditService;
 import ltw.nhom6.blog.exception.common.BusinessException;
 import ltw.nhom6.blog.security.authentication.provider.JwtProvider;
-import ltw.nhom6.blog.user.model.User;
-import ltw.nhom6.blog.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,9 +35,9 @@ public class BlogEditServiceIml implements BlogEditService {
     }
 
 
-    private void validateInput(BlogEditReqDto reqDto) {
+    private void validateInput(BlogEditReqDto reqDto, String token) {
         Map<String, String> error = new HashMap<>();
-        String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        String email = jwtProvider.getUsernameFromToken(token);
         blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).ifPresentOrElse(blog -> {
             if (!blog.getAuthor().equals(email)) {
                 error.put("NO AUTHORIZE", "YOU DON'T HAVE AUTHORIZE");
@@ -51,9 +49,8 @@ public class BlogEditServiceIml implements BlogEditService {
     }
 
     @Override
-    public BlogEditResponse execute(BlogEditReqDto reqDto) {
-        validateInput(reqDto);
-        String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+    public BlogEditResponse execute(BlogEditReqDto reqDto, String token) {
+        validateInput(reqDto, token);
         Blog blog = blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).orElse(new Blog());
         if (reqDto.getNewCategory().length != 0) {
             blog.setCategories(Arrays.stream(reqDto.getNewCategory()).collect(Collectors.toSet()));

@@ -15,5 +15,5 @@ public class CommentBlogReqDto {
     private String blogId;
     @NotBlank(message = "comment is required")
     private String comment;
-    private String accessToken;
+//    private String accessToken;
 }

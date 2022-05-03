@@ -5,5 +5,5 @@ import ltw.nhom6.blog.blog.dto.response.CommentBlogResDto;
 
 public interface CommentService {
 
-    CommentBlogResDto comment(CommentBlogReqDto reqDto);
+    CommentBlogResDto comment(CommentBlogReqDto reqDto, String token);
 }

@@ -5,5 +5,5 @@ import ltw.nhom6.blog.blog.dto.response.BlogEditResponse;
 
 public interface BlogEditService {
 
-    BlogEditResponse execute(BlogEditReqDto reqDto);
+    BlogEditResponse execute(BlogEditReqDto reqDto, String token);
 }

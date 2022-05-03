@@ -26,16 +26,16 @@ public class BlogDeleteServiceIml implements BlogDeleteService {
     }
 
     @Override
-    public void execute(BlogDeleteReqDto reqDto) {
-        validateInput(reqDto);
+    public void execute(BlogDeleteReqDto reqDto, String token) {
+        validateInput(reqDto, token);
         Blog blog = blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).orElse(new Blog());
         blog.setIsDeleted(true);
         blogRepository.save(blog);
     }
 
-    private void validateInput(BlogDeleteReqDto reqDto) {
+    private void validateInput(BlogDeleteReqDto reqDto,String token) {
         HashMap<String, String> error = new HashMap<>();
-        String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        String email = jwtProvider.getUsernameFromToken(token);
         blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).ifPresentOrElse(blog -> {
             if (!blog.getAuthor().equals(email)) {
                 error.put("UN_AUTHORIZE", "YOU DON'T HAVE PERMIT");

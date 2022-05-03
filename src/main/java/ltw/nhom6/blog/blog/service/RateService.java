@@ -5,5 +5,5 @@ import ltw.nhom6.blog.blog.dto.response.RateBlogResDto;
 
 public interface RateService {
 
-    RateBlogResDto rate(RateBlogReqDto reqDto);
+    RateBlogResDto rate(RateBlogReqDto reqDto, String token);
 }

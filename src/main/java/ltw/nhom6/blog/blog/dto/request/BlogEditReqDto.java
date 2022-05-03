@@ -17,6 +17,6 @@ public class BlogEditReqDto {
     private String oldTitle;
     private String newContent;
     private Category[] newCategory;
-    @NotBlank(message = "Access token is required")
-    private String accessToken;
+//    @NotBlank(message = "Access token is required")
+//    private String accessToken;
 }

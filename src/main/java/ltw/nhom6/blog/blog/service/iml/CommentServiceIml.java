@@ -41,10 +41,10 @@ public class CommentServiceIml implements CommentService {
     }
 
     @Override
-    public CommentBlogResDto comment(CommentBlogReqDto reqDto) {
+    public CommentBlogResDto comment(CommentBlogReqDto reqDto, String token) {
 
-        validateInput(reqDto);
-        String author = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        validateInput(reqDto, token);
+        String author = jwtProvider.getUsernameFromToken(token);
         User userComment = userRepository.findUserByEmail(author).orElse(new User());
         Blog blog = blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).orElse(new Blog());
         ltw.nhom6.blog.blog.model.Comment comment = new Comment();
@@ -67,9 +67,9 @@ public class CommentServiceIml implements CommentService {
         return modelMapper.map(newComment, CommentBlogResDto.class);
     }
 
-    private void validateInput(CommentBlogReqDto reqDto) {
+    private void validateInput(CommentBlogReqDto reqDto, String token) {
         HashMap<String,String> error = new HashMap<>();
-        String author = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        String author = jwtProvider.getUsernameFromToken(token);
         userRepository.findUserByEmail(author).ifPresent(user -> {
             if (user.isDeleted()) {
                 error.put("USER", "user is banned");

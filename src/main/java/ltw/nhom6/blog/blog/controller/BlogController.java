@@ -23,7 +23,7 @@ public class BlogController {
     }
 
     @GetMapping
-    public Result<BlogResponse> getAllBlog(@RequestBody @Valid BlogFindingReqDto reqDto) {
+    public Result<BlogResponse> getAllBlog(@RequestHeader @Valid BlogFindingReqDto reqDto) {
         return Result.success(service.findAllBlog(reqDto));
     }
 }

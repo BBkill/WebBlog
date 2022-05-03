@@ -12,6 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class BlogDeleteReqDto {
 
     private String blogId;
-    @NotBlank(message = "Access token is required")
-    private String accessToken;
+//    @NotBlank(message = "Access token is required")
+//    private String accessToken;
 }

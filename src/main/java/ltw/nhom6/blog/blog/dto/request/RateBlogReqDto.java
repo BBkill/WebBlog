@@ -20,5 +20,5 @@ public class RateBlogReqDto {
     @Max(message = "max is 10", value = 10)
     @Min(message = "min is 0", value = 0)
     private Integer rate;
-    private String accessToken;
+//    private String accessToken;
 }

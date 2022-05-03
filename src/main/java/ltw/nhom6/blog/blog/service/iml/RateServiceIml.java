@@ -40,9 +40,9 @@ public class RateServiceIml implements RateService {
 
 
     @Override
-    public RateBlogResDto rate(RateBlogReqDto reqDto) {
+    public RateBlogResDto rate(RateBlogReqDto reqDto, String token) {
 
-        String email = jwtProvider.getUsernameFromToken(reqDto.getAccessToken());
+        String email = jwtProvider.getUsernameFromToken(token);
         User user = userRepository.findUserByEmail(email).orElse(new User());
         Blog blog = blogRepository.findBlogByIdAndIsDeleted(reqDto.getBlogId(), false).orElse(new Blog());
 

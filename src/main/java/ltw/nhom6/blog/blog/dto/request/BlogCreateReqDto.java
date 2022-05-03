@@ -16,7 +16,7 @@ public class BlogCreateReqDto {
     private String title;
     @NotBlank(message = "Content is required")
     private String content;
-    @NotBlank(message = "Access token is required")
-    private String accessToken;
+//    @NotBlank(message = "Access token is required")
+//    private String accessToken;
     private Category[] categories;
 }
