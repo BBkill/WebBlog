@@ -1,15 +1,11 @@
 package ltw.nhom6.blog.blog.controller;
 
-import ltw.nhom6.blog.blog.dto.request.BlogFindingReqDto;
-import ltw.nhom6.blog.blog.dto.response.BlogResponse;
+import ltw.nhom6.blog.blog.dto.response.page.PagingBlog;
 import ltw.nhom6.blog.blog.service.BlogFindingService;
 import ltw.nhom6.blog.core.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/blogs")
@@ -22,8 +18,23 @@ public class BlogController {
         this.service = service;
     }
 
-    @GetMapping
-    public Result<BlogResponse> getAllBlog(@RequestHeader @Valid BlogFindingReqDto reqDto) {
-        return Result.success(service.findAllBlog(reqDto));
+    @GetMapping("/home")
+    public Result<PagingBlog> getPagingBlog(@RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
+        return Result.success(service.findBlogByPageSizeAndPageNumber(pageSize, pageNumber));
+    }
+
+    @GetMapping("/user")
+    public Result<PagingBlog> getPagingBlogOfUser(@RequestParam(value = "author", defaultValue = "") String author,
+                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
+        return Result.success(service.findBlogByAuthorAndPageSizeAndPageNumber(author, pageSize, pageNumber));
+    }
+
+    @GetMapping("/search")
+    public Result<PagingBlog> getPagingBlogLike(@RequestParam(value = "keyWord", defaultValue = "all") String keyWord,
+                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
+        return Result.success(service.findBlogByKeyWordAndPageSizeAndPageNumber(keyWord, pageSize, pageNumber));
     }
 }
