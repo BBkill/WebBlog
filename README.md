@@ -15,3 +15,4 @@ BLOG ( use MongoDB and NoSQL )
   - Rate Blog
   - Comment Blog
   - Delete Blog
+  - Find blog by username, title, content
