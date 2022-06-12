@@ -26,30 +26,33 @@ public class BlogFindingServiceIml implements BlogFindingService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
-    private final ModelMapper modelMapper;
 
     public BlogFindingServiceIml(BlogRepository blogRepository,
                                  UserRepository userRepository,
-                                 JwtProvider jwtProvider,
-                                 ModelMapper modelMapper) {
+                                 JwtProvider jwtProvider) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
-        this.modelMapper = modelMapper;
     }
 
-    //users find their own blo
+    //users find their own blog
 
     @Override
     public PagingBlog findBlogByPageSizeAndPageNumber(int pageSize, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
-        List<BlogResponse> list = blogRepository.findAllByIsDeleted(false, pageable)
-                        .stream().map(blog -> modelMapper.map(blog, BlogResponse.class))
-                        .collect(Collectors.toList());
+        List<Blog> blogs = getAllBlogs(pageSize, pageNumber);
+        return returnResult(blogs, pageSize, pageNumber);
+    }
 
+    private BlogResponse setBlogResponse(List<Blog> blogs) {
+        return new BlogResponse(blogs);
+    }
+
+    private PagingBlog returnResult(List<Blog> blogs, int pageSize, int pageNumber) {
+        List<BlogResponse> list = new ArrayList<>();
+        list.add(setBlogResponse(blogs));
         PagingBlog pagingBlog = new PagingBlog();
         pagingBlog.setPageNumber(pageNumber);
-        pagingBlog.setPageSize(pageSize);
+        pagingBlog.setPageSize(Math.min(pageSize, blogs.size()));
         pagingBlog.setBlogResponses(list);
         return pagingBlog;
     }
@@ -57,28 +60,23 @@ public class BlogFindingServiceIml implements BlogFindingService {
     @Override
     public PagingBlog findBlogByAuthorAndPageSizeAndPageNumber(String author, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
-        List<BlogResponse> list = blogRepository.findAllByAuthorAndIsDeleted(author, false, pageable)
-                .stream().map(blog -> modelMapper.map(blog, BlogResponse.class))
-                .collect(Collectors.toList());
-
-        PagingBlog pagingBlog = new PagingBlog();
-        pagingBlog.setPageNumber(pageNumber);
-        pagingBlog.setPageSize(pageSize);
-        pagingBlog.setBlogResponses(list);
-        return pagingBlog;
+        List<Blog> blogs = blogRepository.findAllByAuthorAndIsDeleted(author, false, pageable);
+        return returnResult(blogs, pageSize, pageNumber);
     }
 
     @Override
     public PagingBlog findBlogByKeyWordAndPageSizeAndPageNumber(String keyWord, int pageSize, int pageNumber) {
-        List<BlogResponse> list = getBlogsLikeAuthor(keyWord, pageSize, pageNumber);
-        list.addAll(getBlogsLikeContent(keyWord, pageSize, pageNumber));
-        list.addAll(getBlogsLikeTitle(keyWord, pageSize, pageNumber));
-        Set<BlogResponse> set = new HashSet<>(list);
-        PagingBlog pagingBlog = new PagingBlog();
-        pagingBlog.setPageNumber(pageNumber);
-        pagingBlog.setPageSize(set.size());
-        pagingBlog.setBlogResponses(new ArrayList<>(set));
-        return pagingBlog;
+        List<Blog> list = new ArrayList<>();
+
+        if (keyWord.equals("all")) {
+            list.addAll(getAllBlogs(pageSize, pageNumber));
+        } else {
+            list.addAll(getBlogsLikeAuthor(keyWord, pageSize, pageNumber));
+            list.addAll(getBlogsLikeContent(keyWord, pageSize, pageNumber));
+            list.addAll(getBlogsLikeTitle(keyWord, pageSize, pageNumber));
+        }
+        list = list.stream().distinct().collect(Collectors.toList());
+        return returnResult(list, pageSize, pageNumber);
     }
 
     // validate users find their own blog
@@ -93,24 +91,23 @@ public class BlogFindingServiceIml implements BlogFindingService {
         }
     }
 
-    private List<BlogResponse> getBlogsLikeAuthor(String author, int pageSize, int pageNumber) {
+    private List<Blog> getBlogsLikeAuthor(String author, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
-        return  blogRepository.findAllByAuthorLike(author, pageable)
-                .stream().map(blog -> modelMapper.map(blog, BlogResponse.class))
-                .collect(Collectors.toList());
+        return  blogRepository.findAllByAuthorOrAuthorIsLike(author, author, pageable);
     }
 
-    private List<BlogResponse> getBlogsLikeContent(String content, int pageSize, int pageNumber) {
+    private List<Blog> getBlogsLikeContent(String content, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
-        return  blogRepository.findAllByContentLike(content, pageable)
-                .stream().map(blog -> modelMapper.map(blog, BlogResponse.class))
-                .collect(Collectors.toList());
+        return  blogRepository.findAllByContentOrContentLike(content, content, pageable);
     }
 
-    private List<BlogResponse> getBlogsLikeTitle(String title, int pageSize, int pageNumber) {
+    private List<Blog> getAllBlogs(int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
-        return  blogRepository.findAllByTitleLike(title, pageable)
-                .stream().map(blog -> modelMapper.map(blog, BlogResponse.class))
-                .collect(Collectors.toList());
+        return blogRepository.findAllByIsDeleted(false, pageable);
+    }
+
+    private List<Blog> getBlogsLikeTitle(String title, int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by("lastUpdatedAt").descending());
+        return  blogRepository.findAllByTitleOrTitleLike(title, title, pageable);
     }
 }

@@ -22,7 +22,7 @@ public class BlogCreateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result<BlogCreateResDto> execute(@RequestHeader String token ,@Valid @RequestBody BlogCreateReqDto reqDto) {
+    public Result<BlogCreateResDto> execute(@RequestHeader("token") String token ,@Valid @RequestBody BlogCreateReqDto reqDto) {
         return Result.createSuccess(service.execute(reqDto, token));
     }
 }

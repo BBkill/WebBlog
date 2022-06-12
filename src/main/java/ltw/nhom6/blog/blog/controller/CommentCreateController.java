@@ -23,7 +23,7 @@ public class CommentCreateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Result<CommentBlogResDto> addComment(@RequestHeader String token ,@RequestBody @Valid CommentBlogReqDto reqDto) {
+    public Result<CommentBlogResDto> addComment(@RequestHeader("token") String token ,@RequestBody @Valid CommentBlogReqDto reqDto) {
         return Result.createCommentSuccess(service.comment(reqDto, token));
     }
 }

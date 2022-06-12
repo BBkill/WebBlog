@@ -28,7 +28,7 @@ public class BlogController {
     }
 
     @GetMapping("/user")
-    @Cacheable(value = "author", key = "#author")
+    @Cacheable("users")
     public Result<PagingBlog> getPagingBlogOfUser(@RequestParam(value = "author", defaultValue = "") String author,
                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                 @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
@@ -36,7 +36,7 @@ public class BlogController {
     }
 
     @GetMapping("/search")
-    @CacheEvict(value = "keyWord", key = "#keyWord")
+    @Cacheable("all")
     public Result<PagingBlog> getPagingBlogLike(@RequestParam(value = "keyWord", defaultValue = "all") String keyWord,
                                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {

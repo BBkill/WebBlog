@@ -24,7 +24,7 @@ public class RateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Result<RateBlogResDto> addRate(@RequestHeader String token ,@RequestBody @Valid RateBlogReqDto reqDto) {
+    public Result<RateBlogResDto> addRate(@RequestHeader("token") String token ,@RequestBody @Valid RateBlogReqDto reqDto) {
         return Result.success(service.rate(reqDto, token));
     }
 }

@@ -49,7 +49,7 @@ public class CacheConfiguration implements CacheManagerCustomizer<ConcurrentMapC
 
     @Bean("cache")
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("all");
+        return new ConcurrentMapCacheManager("users", "author", "all", "search", "home");
     }
 
     @Override

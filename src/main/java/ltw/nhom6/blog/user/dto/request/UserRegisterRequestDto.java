@@ -24,7 +24,7 @@ public class UserRegisterRequestDto {
     @NotBlank(message = "lastname is required")
     private String lastName;
 
-    @NotNull(message = "age is required")
+    @NotBlank(message = "age is required")
     @Max(message = "age must be in range 4 to 150", value = 150)
     private Byte age;
 

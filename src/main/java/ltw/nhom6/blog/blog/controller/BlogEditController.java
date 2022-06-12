@@ -22,7 +22,7 @@ public class BlogEditController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Result<BlogEditResponse> execute(@RequestHeader String token ,@Valid @RequestBody BlogEditReqDto reqDto) {
+    public Result<BlogEditResponse> execute(@RequestHeader("token") String token ,@Valid @RequestBody BlogEditReqDto reqDto) {
         return Result.success(service.execute(reqDto, token));
     }
 }
